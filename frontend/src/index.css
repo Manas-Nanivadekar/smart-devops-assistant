@@ -1,7 +1,7 @@
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
-} 
+}
 
 /* HeroCards background shadow */
 .shadow {
@@ -15,7 +15,7 @@ html {
   height: 400px;
   filter: blur(150px);
   animation: shadow-slide infinite 4s linear alternate;
-} 
+}
 
 @keyframes shadow-slide {
   from {
@@ -26,9 +26,9 @@ html {
     background: hsl(var(--primary) / 80%);
     right: 160px;
   }
-} 
+}
 
- @media (max-width: 1024px) {
+@media (max-width: 1024px) {
   .shadow {
     top: 70px;
   }
@@ -43,7 +43,7 @@ html {
       right: 160px;
     }
   }
-} 
+}
 
 @media (max-width: 768px) {
   .shadow {
