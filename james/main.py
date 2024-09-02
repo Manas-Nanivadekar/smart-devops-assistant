@@ -1,34 +1,43 @@
+from flask import Flask, render_template, request, jsonify
 from aws_interactions.resource_fetcher import ResourceFetcher
 from rag_system.document_processor import DocumentProcessor
 from chatbot.chat_interface import ChatInterface
-from utils.logger import setup_logger
-import os
+from langchain.vectorstores import FAISS
+from langchain.embeddings import HuggingFaceEmbeddings
+import torch
+
+app = Flask(__name__)
 
 
-def main():
-    # Setup logger
-    logger = setup_logger("aws_monitoring_chatbot", "bot.log")
-
-    # Fetch AWS resources
-    fetcher = ResourceFetcher(service_name="ec2", region_name="us-west-2")
-    resources = fetcher.generate_demo_metadata()  # Use demo metadata
-    if resources:
-        logger.info("Fetched AWS resources successfully")
-
-    # Process documents
+def setup_chatbot():
+    torch.cuda.empty_cache()
+    fetcher = ResourceFetcher(service_name="ec2", region_name="ap-south-1")
+    resources = fetcher.generate_demo_metadata()
     processor = DocumentProcessor()
-    documents = [str(resources)]  # Convert metadata to string for processing
+    documents = [str(resources)]
     chunks = processor.process_documents(documents)
-    logger.info(f"Processed {len(chunks)} document chunks")
-
-    # Initialize chat interface with local model path
-    # Pass the processed chunks to query as context
-    context = " ".join(chunks)
+    embeddings = HuggingFaceEmbeddings()
+    vectorstore = FAISS.from_texts(chunks, embedding=embeddings)
     chat_interface = ChatInterface()
-    query = "What is my IP address?"
-    response = chat_interface.handle_query(query, context)
-    print(response)
+    return vectorstore, chat_interface
+
+
+vectorstore, chat_interface = setup_chatbot()
+
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
+
+@app.route("/ask", methods=["POST"])
+def ask():
+    user_message = request.json["message"]
+    relevant_docs = vectorstore.similarity_search(user_message, k=1)
+    context = relevant_docs[0].page_content
+    response = chat_interface.handle_query(user_message, context)
+    return jsonify({"response": response})
 
 
 if __name__ == "__main__":
-    main()
+    app.run(debug=True)

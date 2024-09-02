@@ -8,3 +8,6 @@ tqdm
 logging
 ctransformers
 huggingface_hub
+streamlit
+sentence-transformers
+langchain-community
