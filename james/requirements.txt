@@ -1,0 +1,10 @@
+boto3
+langchain
+transformers
+torch
+faiss-cpu
+numpy
+tqdm
+logging
+ctransformers
+huggingface_hub
