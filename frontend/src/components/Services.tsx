@@ -1,7 +1,5 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card";
 import { MagnifierIcon, WalletIcon, ChartIcon } from "./Icons";
-import cubeLeg from "../assets/cube-leg.png";
-import image from "/vite.svg";
 
 interface ServiceProps {
   title: string;
@@ -43,7 +41,8 @@ export const Services = () => {
           </h2>
 
           <p className="text-muted-foreground text-xl mt-4 mb-8 ">
-            At Majs, we prioritize client satisfaction with tailored services for seamless deployment.
+            At Majs, we prioritize client satisfaction with tailored services
+            for seamless deployment.
           </p>
 
           <div className="flex flex-col gap-8">
@@ -73,22 +72,24 @@ export const Services = () => {
           alt="About services"
         /> */}
         <div className="border-primary border-4 rounded-xl relative mx-auto max-w-md">
-            <div className="bg-black text-white rounded-lg shadow-xl overflow-hidden">
-                <div className="bg-gray-800 px-4 py-2 flex items-center justify-between">
-                    <div className="flex space-x-1">
-                        <div className="w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full"></div>
-                        <div className="w-2 h-2 md:w-3 md:h-3 bg-yellow-500 rounded-full"></div>
-                        <div className="w-2 h-2 md:w-3 md:h-3 bg-green-500 rounded-full"></div>
-                    </div>
-                    <div className="text-xs md:text-sm text-gray-400">bash</div>
-                </div>
-                <div className="p-4 font-mono text-left">
-                    <p className="text-green-400">$ majs install</p>
-                    <p className="text-white">+ majs@1.0.0</p>
-                    <p className="text-white">added 1 package, and audited 2 packages in 3s</p>
-                    <p className="text-green-400 mt-2">$</p>
-                </div>
+          <div className="bg-black text-white rounded-lg shadow-xl overflow-hidden">
+            <div className="bg-gray-800 px-4 py-2 flex items-center justify-between">
+              <div className="flex space-x-1">
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-red-500 rounded-full"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-yellow-500 rounded-full"></div>
+                <div className="w-2 h-2 md:w-3 md:h-3 bg-green-500 rounded-full"></div>
+              </div>
+              <div className="text-xs md:text-sm text-gray-400">bash</div>
             </div>
+            <div className="p-4 font-mono text-left">
+              <p className="text-green-400">$ majs install</p>
+              <p className="text-white">+ majs@1.0.0</p>
+              <p className="text-white">
+                added 1 package, and audited 2 packages in 3s
+              </p>
+              <p className="text-green-400 mt-2">$</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
