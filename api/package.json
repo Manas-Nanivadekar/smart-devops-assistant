@@ -12,7 +12,7 @@
   "dependencies": {
     "aws-sdk": "^2.1687.0",
     "child_process": "^1.0.2",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "fs": "^0.0.1-security",
     "node-fetch": "^3.3.2",
     "path": "^0.12.7"
