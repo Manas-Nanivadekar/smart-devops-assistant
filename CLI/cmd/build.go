@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"archive/zip"
+	"bufio"
 	"fmt"
 	"io"
 	"os"
@@ -17,7 +18,7 @@ import (
 
 var build = &cobra.Command{
 	Use:   "build [directory]",
-	Short: "Create a .zip file of the directory contents and upload to S3",
+	Short: "Build the project",
 	Long:  `This command creates a .zip file of the contents in the specified directory and uploads it to S3.`,
 	Args:  cobra.ExactArgs(1),
 	Run:   runBuild,
@@ -25,7 +26,11 @@ var build = &cobra.Command{
 
 func runBuild(cmd *cobra.Command, args []string) {
 	dir := args[0]
-	zipFileName := "codebase.zip"
+	projectName := projectName()
+
+	fmt.Println("Project name:", projectName)
+
+	zipFileName := projectName + ".zip"
 	zipFilePath := filepath.Join(dir, zipFileName)
 	time.Sleep(2 * time.Second)
 	fmt.Println("Creating zip file...")
@@ -71,7 +76,6 @@ func zipDir(source, target string) error {
 			return fmt.Errorf("failed to get relative path: %w", err)
 		}
 
-		// Skip root directory
 		if relPath == "." {
 			return nil
 		}
@@ -135,6 +139,27 @@ func uploadToS3(filePath string) error {
 
 	fmt.Println("S3 upload completed.")
 	return nil
+}
+
+func projectName() string {
+	// fmt.Print("Enter the project name (this will be displayed as the link):")
+	fmt.Print("\033[38;5;240mNote: This name will appear in the shared link\033[0m")
+	fmt.Print("\nEnter the project name:")
+	reader := bufio.NewReader(os.Stdin)
+	projectName, err := reader.ReadString('\n')
+
+	if projectName == "\n" {
+		fmt.Println("Project name cannot be empty")
+		os.Exit(1)
+	}
+
+	if err != nil {
+		fmt.Printf("Error reading project name: %v\n", err)
+		os.Exit(1)
+	}
+	projectName = strings.TrimSpace(projectName)
+	fmt.Printf("Note: Your project name '%s' will be displayed as the live link.\n", projectName)
+	return projectName
 }
 
 func init() {

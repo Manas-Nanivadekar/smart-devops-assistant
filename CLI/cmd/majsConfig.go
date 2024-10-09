@@ -51,10 +51,10 @@ func setAuthenticatedUser(apiKey string) error {
 
 var majsConfigCmd = &cobra.Command{
 	Use:   "configure",
-	Short: "A brief description of your command",
+	Short: "Authenticate the user",
 	Long:  `config`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("majsConfig called")
+		// fmt.Println("majsConfig called")
 		authenticated, apiKey, err := authenticateUser()
 		if err != nil {
 			fmt.Println("Error authenticating user:", err)
@@ -82,7 +82,10 @@ func authenticateUser() (bool, string, error) {
 
 	apiKey = strings.TrimSpace(apiKey)
 
-	url := "https://jnjcn0fgrd.execute-api.ap-south-1.amazonaws.com/authenticate"
+	url := "https://rgoaes1ar0.execute-api.ap-south-1.amazonaws.com/authenticate"
+
+	// fmt.Println("URL:", url)
+
 	payload := map[string]string{"accessKey": apiKey}
 	jsonPayload, err := json.Marshal(payload)
 	if err != nil {

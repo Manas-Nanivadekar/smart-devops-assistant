@@ -1,6 +1,0 @@
-provider:
-    name: aws || gcp || azure
-database:
-    name: rds || cloudsql || cosmosdb
-    type: sql
-    family: t2.micro
