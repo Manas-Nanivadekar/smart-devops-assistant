@@ -1,75 +1,44 @@
-const https = require("https");
+const axios = require('axios');
 
-function addCnameRecord(
-  apiKey,
-  apiSecret,
-  domain,
-  subdomain,
-  target,
-  ttl = 6000
-) {
-  // API endpoint to add the CNAME record
-  const url = new URL(`https://api.godaddy.com/v1/domains/${domain}/records`);
-
-  // Headers for the request
-  const headers = {
-    Authorization: `sso-key ${apiKey}:${apiSecret}`,
-    "Content-Type": "application/json",
-  };
-
-  // JSON payload for the new CNAME record
-  const data = JSON.stringify([
-    { data: target, name: subdomain, ttl: ttl, type: "CNAME" },
-  ]);
-
-  // Request options
-  const options = {
-    hostname: url.hostname,
-    path: url.pathname,
-    method: "PATCH",
-    headers: headers,
-  };
-
-  // Make the request to add the CNAME record
-  const req = https.request(options, (res) => {
-    res.setEncoding("utf8");
-    let responseBody = "";
-
-    res.on("data", (chunk) => {
-      responseBody += chunk;
-    });
-
-    res.on("end", () => {
-      if (res.statusCode === 200) {
-        console.log(
-          `Successfully added CNAME record for ${subdomain}.${domain}`
-        );
-      } else {
-        console.error(
-          `Failed to add CNAME record: ${res.statusCode} - ${responseBody}`
-        );
-      }
-    });
+async function addARecord(domain, host, ipAddress, ttl = 300) {
+  const data = JSON.stringify({
+    host: host,
+    type: "A",
+    answer: ipAddress,
+    ttl: ttl
   });
 
-  req.on("error", (err) => {
-    console.error(err);
-  });
+  const config = {
+    method: 'post',
+    maxBodyLength: Infinity,
+    url: `https://api.name.com/v4/domains/${domain}/records`,
+    headers: { 
+      'Content-Type': 'application/json', 
+      'Authorization': 'Basic ', 
+    },
+    data: data
+  };
 
-  req.write(data);
-  req.end();
+  try {
+    const response = await axios.request(config);
+    console.log(`Successfully added A record for ${host}.${domain}`);
+    console.log('API Response:', JSON.stringify(response.data, null, 2));
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to add A record for ${host}.${domain}`);
+    if (error.response) {
+      console.error('Error response:', error.response.data);
+    } else {
+      console.error('Error:', error.message);
+    }
+    throw error;
+  }
 }
 
 // Example usage
-const apiKey = "fYLX6UjMP71o_DAoWs5j3qihQRuLM1Xp2W7";
-const apiSecret = "NWrMscb12TtMaZcZwoFaMq";
-const domain = "majs.live";
-const target = "YOUR_TARGET_DOMAIN";
-const project_name = "studentreg";
+const domain = 'amaanis.live';
 
-module.exports={
-  addCnameRecord,
-  apiKey,
-  apiSecret,
-  domain,
-}
+module.exports = {
+  addARecord,
+  domain
+};
