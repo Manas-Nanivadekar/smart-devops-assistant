@@ -24,15 +24,24 @@ export const Hero = () => {
         </main>
 
         <p className="text-xl text-muted-foreground md:w-10/12 mx-auto lg:mx-0">
-          Majs simplifies application deployment across multiple cloud providers, allowing you to deploy with a single click while managing all your infrastructure needs effortlessly.
+          Majs simplifies application deployment across multiple cloud
+          providers, allowing you to deploy with a single click while managing
+          all your infrastructure needs effortlessly.
         </p>
 
         <div className="space-y-4 md:space-y-0 md:space-x-4">
-          <Button className="w-full md:w-1/3">Get Started</Button>
+          <Button
+            onClick={() => {
+              window.location.href = "https://d1cgs2mxd7ibdw.cloudfront.net/";
+            }}
+            className="w-full md:w-1/3"
+          >
+            Get Started
+          </Button>
 
           <a
             rel="noreferrer noopener"
-            href="https://github.com/"
+            href="https://github.com/Manas-Nanivadekar/smart-devops-assistant"
             target="_blank"
             className={`w-full md:w-1/3 ${buttonVariants({
               variant: "outline",
