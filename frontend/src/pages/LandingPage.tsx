@@ -8,7 +8,7 @@ import { HowItWorks } from "../components/HowItWorks";
 import { Pricing } from "../components/Pricing";
 import { ScrollToTop } from "../components/ScrollToTop";
 import { Services } from "../components/Services";
-import { Team } from "../components/Team";
+// import { Team } from "../components/Team";
 import "../App.css";
 
 function App() {
@@ -26,8 +26,8 @@ function App() {
       <hr className="w-11/12 mx-auto" />
       <Cta />
       <hr className="w-11/12 mx-auto" />
-      <Team />
-      <hr className="w-11/12 mx-auto" />
+      {/* <Team />
+      <hr className="w-11/12 mx-auto" /> */}
       <Pricing />
       <hr className="w-11/12 mx-auto" />
       <FAQ />
